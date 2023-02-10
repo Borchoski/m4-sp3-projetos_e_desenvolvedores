@@ -24,10 +24,31 @@ interface iDeveloperInfo {
 
 type developerResult = QueryResult<iDeveloperReturn>;
 
+interface iNewProject {
+    name: string;
+    description: string;
+    estimatedTime: string;
+    repository: string;
+    startDate: string;
+    endDate?: string;
+    dev_id: number;
+}
+
+type requiredKeysProject =
+    | "name"
+    | "description"
+    | "estimatedTime"
+    | "repository"
+    | "startDate"
+    | "endDate"
+    | "dev_id";
+
 export {
     iDeveloper,
     iDeveloperReturn,
     developerResult,
     iDeveloperInfo,
     preferredSistem,
+    iNewProject,
+    requiredKeysProject,
 };
