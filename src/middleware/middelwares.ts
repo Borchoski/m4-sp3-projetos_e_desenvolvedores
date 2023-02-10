@@ -6,6 +6,7 @@ import {
     iDeveloper,
     iDeveloperInfo,
     preferredSistem,
+    validTechs,
 } from "../interface/types";
 
 export const verifyId = async (
@@ -190,5 +191,61 @@ export const verifyIdInfo = async (
                 "Developer info alredy exists for this ID, update is possible",
         });
     }
+    return next();
+};
+
+export const verifyTechs = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    const tech: string = req.params.name;
+    const validTechs: Array<string> = [
+        "CSS",
+        "Express.js",
+        "HTML",
+        "JavaScript",
+        "MongoDB",
+        "PostgreSQL",
+        "Python",
+        "React",
+    ];
+
+    const isValid: boolean = validTechs.includes(tech);
+
+    if (!isValid) {
+        return res.status(404).json({
+            message: `Valid tech names are: ${validTechs}`,
+        });
+    }
+
+    return next();
+};
+
+export const verifyTechsAdd = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    const tech: string = req.body.name;
+    const validTechs: Array<string> = [
+        "CSS",
+        "Express.js",
+        "HTML",
+        "JavaScript",
+        "MongoDB",
+        "PostgreSQL",
+        "Python",
+        "React",
+    ];
+
+    const isValid: boolean = validTechs.includes(tech);
+
+    if (!isValid) {
+        return res.status(404).json({
+            message: `Valid tech names are: ${validTechs}`,
+        });
+    }
+
     return next();
 };

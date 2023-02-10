@@ -1,3 +1,4 @@
+import { updateProject } from "./logic/projects/patch/index";
 import { newProject, newProjectTech } from "./logic/projects/post/index";
 import {
     verifyIdProject,
@@ -25,7 +26,13 @@ import {
     verifyRequiredKeys,
     verifyRequiredKeysPatchDeveloper,
     verifyRequiredKeysPatchInfo,
+    verifyTechs,
+    verifyTechsAdd,
 } from "./middleware/middelwares";
+import {
+    deleteProject,
+    deleteProjectTech,
+} from "./logic/projects/delete/index";
 
 const app: Application = express();
 app.use(express.json());
@@ -72,4 +79,24 @@ app.get("/projects", getProjects);
 app.get("/projects/:id", verifyIdProject, getProjectsById);
 
 app.post("/projects", verifyRequiredKeysProjects, newProject);
-app.post("/projects/:id/technologies", newProjectTech);
+app.post(
+    "/projects/:id/technologies",
+    verifyIdProject,
+    verifyTechsAdd,
+    newProjectTech
+);
+
+app.delete("/projects/:id", verifyIdProject, deleteProject);
+app.delete(
+    "/projects/:id/technologies/:name",
+    verifyIdProject,
+    verifyTechs,
+    deleteProjectTech
+);
+
+app.patch(
+    "/projects/:id",
+    verifyIdProject,
+    verifyRequiredKeysProjects,
+    updateProject
+);

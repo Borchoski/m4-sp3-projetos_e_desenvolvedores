@@ -43,7 +43,7 @@ export const verifyRequiredKeysProjects = async (
     const kyes: Array<string> = Object.keys(req.body);
     const requiredKeys: Array<string> = [
         "description",
-        "dev_id",
+        "developerId",
         "endDate",
         "estimatedTime",
         "name",
@@ -56,7 +56,7 @@ export const verifyRequiredKeysProjects = async (
 
     if (!allRequired) {
         return res.status(400).json({
-            message: `Required keys are: ${requiredKeys}`,
+            message: `Required/valid keys are: ${requiredKeys}`,
         });
     }
 
