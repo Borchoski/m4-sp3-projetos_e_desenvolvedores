@@ -59,8 +59,7 @@ export const newDeveloperInfo = async (
     SET
         "developerInfoId" = $1
     WHERE
-        id = $2
-    RETURNING*;
+        id = $2;
     `;
 
     const queryConfigUpdate: QueryConfig = {
@@ -68,7 +67,7 @@ export const newDeveloperInfo = async (
         values: [infoId, id],
     };
 
-    const queryResultUpdate = await client.query(queryConfigUpdate);
+    await client.query(queryConfigUpdate);
 
     const queryReturn: string = `
     SELECT 
@@ -78,7 +77,7 @@ export const newDeveloperInfo = async (
     JOIN 
         developer_infos di 
     ON 
-        d.id = di.id_info
+        d."developerInfoId" = di.id_info
     WHERE 
         di.id_info = $1;
     `;

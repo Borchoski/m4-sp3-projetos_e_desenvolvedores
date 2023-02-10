@@ -9,9 +9,13 @@ export const getDevelopers = async (
 ): Promise<Response> => {
     const queryString: string = `
     SELECT 
-        *
-    FROM
-        developers;
+    * 
+    FROM 
+        developers d 
+    LEFT JOIN 
+        developer_infos di ON d."developerInfoId" = di.id_info
+    ORDER BY
+        id;
     `;
 
     const queryResult: developerResult = await client.query(queryString);
@@ -27,11 +31,13 @@ export const getDeveloperById = async (
 
     const queryString: string = `
     SELECT 
-        *
-    FROM
-        developers  
-    WHERE
-        id = $1;
+        * 
+    FROM 
+        developers d 
+    JOIN 
+        developer_infos di ON d."developerInfoId" = di.id_info
+    WHERE 
+        di.id_info = $1;
     `;
 
     const queryConfig: QueryConfig = {
