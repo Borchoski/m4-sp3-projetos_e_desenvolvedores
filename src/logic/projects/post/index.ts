@@ -1,4 +1,4 @@
-import { QueryResult } from "pg";
+import { QueryConfig, QueryResult } from "pg";
 import { client } from "./../../../database/db";
 import format from "pg-format";
 import { Request, Response } from "express";
@@ -33,17 +33,39 @@ export const newProjectTech = async (
 ): Promise<Response> => {
     const id: number = +req.params.id;
     const tech = req.body;
-    //console.log(tech.name);
+
+    // if (tech.name == undefined || tech.length > 1) {
+    //     return res.status(400).json({
+    //         message: "Required key are: name",
+    //     });
+    // }
 
     const queryTech: string = `
     SELECT * FROM technologies;
     `;
-    const QueryResult: QueryResult = await client.query(queryTech);
-    const technologies = QueryResult.rows;
-    const idTech = technologies.find((el) => {
-        el.name === tech.name;
-    });
-    console.log(idTech);
+    const queryTechResult: QueryResult = await client.query(queryTech);
+    const technologies = queryTechResult.rows;
+    const techFind = technologies.find((el) => el.name == tech.name);
 
-    return res.json();
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const date = today.toISOString();
+
+    const queryString: string = `
+    
+    INSERT INTO 
+        projects_technologies("addedIn", "id_project", "technology_id")
+    VALUES 
+        ($1, $2, $3)
+    RETURNING *;
+    `;
+
+    const QueryConfig: QueryConfig = {
+        text: queryString,
+        values: [date, id, techFind.id],
+    };
+
+    const queryResult = await client.query(QueryConfig);
+
+    return res.json(queryResult.rows);
 };

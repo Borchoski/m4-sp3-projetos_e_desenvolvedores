@@ -34,6 +34,17 @@ interface iNewProject {
     dev_id: number;
 }
 
+type validTechs =
+    | "JavaScript"
+    | "Python"
+    | "React"
+    | "Express.js"
+    | "HTML"
+    | "CSS"
+    | "Django"
+    | "PostgreSQL"
+    | "MongoDB";
+
 type requiredKeysProject =
     | "name"
     | "description"
@@ -51,4 +62,5 @@ export {
     preferredSistem,
     iNewProject,
     requiredKeysProject,
+    validTechs,
 };

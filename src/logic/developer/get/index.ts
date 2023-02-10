@@ -64,9 +64,9 @@ export const getDeveloperProjects = async (
     JOIN 
         projects p 
     ON 
-        d.id = p.dev_id
+        d.id = p."developerId"
     WHERE 
-        p.dev_id = $1;
+        p."developerId" = $1;
     `;
 
     const QueryConfig: QueryConfig = {
